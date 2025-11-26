@@ -1,5 +1,5 @@
 # Online Learning Platform 
-=================================
+
 This project is a minimal but complete online learning platform built with Flask,
 supporting:
   - User registration and login (hashed passwords, session)
@@ -8,7 +8,7 @@ supporting:
   - Quizzes per lesson
   - Progress tracking
 
-Folder structure (create exactly as listed):
+# Folder structure:
   /online_learning_platform
   ├─ app.py
   ├─ requirements.txt
@@ -23,4 +23,4 @@ Folder structure (create exactly as listed):
   └─ static/
      ├─ css/style.css
      ├─ js/app.js
-     └─ videos/ARNING-PLATFORM
+     └─ videos
