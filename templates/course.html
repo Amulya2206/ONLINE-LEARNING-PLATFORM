@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>{{ course['title'] }}</h2>
+<p>{{ course['description'] }}</p>
+
+<div class="mb-3">
+  <video id="lessonVideo" width="720" controls preload="metadata">
+    <source src="{{ url_for('stream_video', filename=course['video_filename']) }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+{% if quiz %}
+  <div class="card">
+    <div class="card-body">
+      <h5>Quiz: {{ quiz['question'] }}</h5>
+      {% set options = quiz['options_json'] | safe %}
+      {% set opts = options | loads %}
+      <form id="quizForm" onsubmit="return submitQuiz(event);">
+        {% for i, opt in enumerate(opts) %}
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="option" id="opt{{ i }}" value="{{ i }}" required>
+            <label class="form-check-label" for="opt{{ i }}">{{ opt }}</label>
+          </div>
+        {% endfor %}
+        <input type="hidden" id="courseId" value="{{ course['id'] }}">
+        <button class="btn btn-success mt-2">Submit Quiz</button>
+      </form>
+      <div id="quizResult" class="mt-2"></div>
+    </div>
+  </div>
+{% else %}
+  <p>No quiz for this course.</p>
+{% endif %}
+
+<script>
+async function submitQuiz(e){
+  e.preventDefault();
+  const courseId = document.getElementById('courseId').value;
+  const selected = document.querySelector('input[name="option"]:checked').value;
+  const res = await fetch('/api/submit_quiz', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({course_id: courseId, selected_index: selected})
+  });
+  const data = await res.json();
+  const el = document.getElementById('quizResult');
+  if (data.error) {
+    el.innerText = data.error;
+    el.className = 'text-danger';
+  } else {
+    el.className = data.correct ? 'text-success' : 'text-warning';
+    el.innerText = data.correct ? 'Correct! Progress saved.' : 'Incorrect. Progress saved at 50%.';
+  }
+  return false;
+}
+</script>
+{% endblock %}
