@@ -1,5 +1,17 @@
 # Online Learning Platform 
 
+COMPANY: CODTECH IT SOLUTIONS
+
+NAME: YATHIPATHI AMULYA
+
+INTERN ID:  :CT04DR2165
+
+DOMAIIN: FULL STCK WEB DEVLOPMENT
+
+DURATION: 4 WEEKS
+
+MENTOR: NEELA SANTOSH
+
 This project is a minimal but complete online learning platform built with Flask,
 supporting:
   - User registration and login (hashed passwords, session)
